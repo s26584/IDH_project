@@ -1,0 +1,2370 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/29/2022 2:10:00 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPOTOPO"
+  DTS:CreatorName="LAPOTOPO\apopi"
+  DTS:DTSID="{EA5BFA03-6F5F-4931-9B00-1F65CB871293}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="38"
+  DTS:VersionGUID="{FB5E34CA-EC09-4798-AE28-DDF6190D7672}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.Food_Inspections]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{67AEF55F-FA40-4060-ACBA-4AE9BBB76762}"
+      DTS:ObjectName="LAPOTOPO\MSSQLSERVER01.Food_Inspections">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=LAPOTOPO\MSSQLSERVER01;Initial Catalog=Food_Inspections;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{F2515461-9D84-45F1-B160-C2EA3768ECC8}"
+      DTS:ObjectName="LAPOTOPO\MSSQLSERVER01.s26584">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=LAPOTOPO\MSSQLSERVER01;Initial Catalog=s26584;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task - Clear Location dimension"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0B2F0378-A33D-4E7F-9785-0F50D5687E0A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task - Clear Location dimension"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F2515461-9D84-45F1-B160-C2EA3768ECC8}"
+          SQLTask:SqlStatementSource="truncate table Location" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task - Delete duplicated location"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{814A7790-CC0D-49FF-B692-23653807FE07}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task - Delete duplicated location"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F2515461-9D84-45F1-B160-C2EA3768ECC8}"
+          SQLTask:SqlStatementSource="WITH CTE AS(&#xA;   SELECT * ,&#xA;       RN = ROW_NUMBER()OVER&#xA;(PARTITION BY Zip&#xA; ORDER BY Zip)&#xA;   FROM dbo.Location&#xA;)&#xA;DELETE FROM CTE WHERE RN &gt; 1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load data into Location dimension"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{F1DD633A-329B-46B9-A769-A4BE405C4A99}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load data into Location dimension"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load data into Location dimension\Conditional Split"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Location dimension\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Conditional Split.Inputs[Conditional Split Input].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Conditional Split.Outputs[Missing State]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Missing State"
+                  synchronousInputId="Package\Load data into Location dimension\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(State)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Conditional Split.Outputs[Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Default Output"
+                  synchronousInputId="Package\Load data into Location dimension\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Load data into Location dimension\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion - Zip float to nvarchar"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Inputs[Data Conversion Input].Columns[Zip]"
+                      cachedDataType="r8"
+                      cachedName="Zip"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Zip]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output].Columns[Zip nvarchar]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output].Columns[Zip nvarchar]"
+                      name="Zip nvarchar"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Zip]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Location dimension\Insert data into Location dimension"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Insert data into Location dimension"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Location]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load data into Location dimension\Insert data into Location dimension.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      externalMetadataColumnId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                      lineageId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[State]" />
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input].Columns[Zip nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Zip nvarchar"
+                      externalMetadataColumnId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input].ExternalColumns[Zip]"
+                      lineageId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip nvarchar]" />
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      externalMetadataColumnId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input].ExternalColumns[CityName]"
+                      lineageId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[City]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input].ExternalColumns[IdLocation]"
+                      dataType="i4"
+                      name="IdLocation" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input].ExternalColumns[Zip]"
+                      dataType="wstr"
+                      length="255"
+                      name="Zip" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                      dataType="wstr"
+                      length="255"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input].ExternalColumns[CityName]"
+                      dataType="wstr"
+                      length="255"
+                      name="CityName" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Insert data into Location dimension.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Insert data into Location dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Insert data into Location dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Insert data into Location dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Insert data into Location dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Location dimension\Missing City 1"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Missing City 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Location dimension\Missing City 1.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Missing City 1.Inputs[Conditional Split Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Missing City 1.Outputs[Missing City]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Missing City"
+                  synchronousInputId="Package\Load data into Location dimension\Missing City 1.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(City)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Missing City 1.Outputs[Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Default Output"
+                  synchronousInputId="Package\Load data into Location dimension\Missing City 1.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Missing City 1.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Load data into Location dimension\Missing City 1.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Missing City 1.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Missing City 1.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Missing City 1.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Missing City 1.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Missing Zip nvarchar or Missing City or Missing State"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Inputs[Conditional Split Input].Columns[Zip nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Zip nvarchar"
+                      lineageId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output].Columns[Zip nvarchar]" />
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Inputs[Conditional Split Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]" />
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Inputs[Conditional Split Input].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Missing Zipcode]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Missing Zipcode"
+                  synchronousInputId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output].Columns[Zip nvarchar]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL([Zip nvarchar])</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Missing City]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Missing City"
+                  synchronousInputId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(City)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Missing State]"
+                  description="Output 3 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Missing State"
+                  synchronousInputId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(State)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">2</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Default Output"
+                  synchronousInputId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Location dimension\Replace Missing City"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Replace Missing City"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Location dimension\Replace Missing City.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing City.Inputs[Derived Column Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Missing City"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Missing City"</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Replace Missing City.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load data into Location dimension\Replace Missing City.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Replace Missing City.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load data into Location dimension\Replace Missing City.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing City.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Replace Missing City.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing City.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Replace Missing City.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Location dimension\Replace Missing City 1"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Replace Missing City 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Location dimension\Replace Missing City 1.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing City 1.Inputs[Derived Column Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Missing City"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Missing City"</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Replace Missing City 1.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load data into Location dimension\Replace Missing City 1.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Replace Missing City 1.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load data into Location dimension\Replace Missing City 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing City 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Replace Missing City 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing City 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Replace Missing City 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Location dimension\Replace Missing State"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Replace Missing State"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Location dimension\Replace Missing State.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing State.Inputs[Derived Column Input].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Missing State"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Missing State"</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Replace Missing State.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load data into Location dimension\Replace Missing State.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Replace Missing State.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load data into Location dimension\Replace Missing State.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing State.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Replace Missing State.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing State.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Replace Missing State.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Location dimension\Replace Missing State 1"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Replace Missing State 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Location dimension\Replace Missing State 1.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing State 1.Inputs[Derived Column Input].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Missing State"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Missing State"</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Replace Missing State 1.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load data into Location dimension\Replace Missing State 1.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Replace Missing State 1.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load data into Location dimension\Replace Missing State 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing State 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Replace Missing State 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing State 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Replace Missing State 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Location dimension\Replace Missing Zip nvarchar"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Replace Missing Zip nvarchar"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Inputs[Derived Column Input].Columns[Zip nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Zip nvarchar"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output].Columns[Zip nvarchar]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Missing Zipcode"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Missing Zipcode"</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Location dimension\Source - Food_Inspections"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source - Food_Inspections"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Food_Inspections]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load data into Location dimension\Source - Food_Inspections.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.Food_Inspections]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.Food_Inspections]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Zip]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Zip]"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Zip]"
+                      name="Zip"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[City]"
+                      length="255"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[State]"
+                      length="255"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]"
+                      name="State"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[State]"
+                      dataType="wstr"
+                      length="255"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Inspection_ID]"
+                      dataType="i4"
+                      name="Inspection_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[DBA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="DBA_Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[AKA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="AKA_Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[License]"
+                      dataType="r8"
+                      name="License" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Facility_Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Facility_Type" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      name="Risk" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Address]"
+                      dataType="wstr"
+                      length="255"
+                      name="Address" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="255"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Zip]"
+                      dataType="r8"
+                      name="Zip" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Inspection_Date]"
+                      dataType="dbTimeStamp2"
+                      name="Inspection_Date"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Inspection_Type" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Results]"
+                      dataType="wstr"
+                      length="255"
+                      name="Results" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      name="Violations" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Latitude]"
+                      dataType="r8"
+                      name="Latitude" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Longitude]"
+                      dataType="r8"
+                      name="Longitude" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Location]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Day]"
+                      dataType="i4"
+                      name="Day" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Month]"
+                      dataType="i4"
+                      name="Month" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Year]"
+                      dataType="i4"
+                      name="Year" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[DayOfTheWeek]"
+                      dataType="wstr"
+                      length="255"
+                      name="DayOfTheWeek" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[Zip]"
+                      dataType="r8"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[Zip]"
+                      name="Zip" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[City]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[State]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[State]"
+                      name="State" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Location dimension\Union All"
+              componentClassID="Microsoft.UnionAll"
+              contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+              name="Union All"
+              version="1">
+              <inputs>
+                <input
+                  refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 1]"
+                  name="Union All Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 1].Columns[Zip]"
+                      cachedDataType="r8"
+                      cachedName="Zip"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Zip]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 1].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 1].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[State]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 1].Columns[Zip nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Zip nvarchar"
+                      lineageId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output].Columns[Zip nvarchar]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip nvarchar]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 5]"
+                  hasSideEffects="true"
+                  name="Union All Input 5">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 5].Columns[Zip]"
+                      cachedDataType="r8"
+                      cachedName="Zip"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Zip]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 5].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 5].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[State]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 5].Columns[Zip nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Zip nvarchar"
+                      lineageId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output].Columns[Zip nvarchar]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip nvarchar]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 4]"
+                  hasSideEffects="true"
+                  name="Union All Input 4">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 4].Columns[Zip]"
+                      cachedDataType="r8"
+                      cachedName="Zip"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Zip]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 4].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 4].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[State]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 4].Columns[Zip nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Zip nvarchar"
+                      lineageId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output].Columns[Zip nvarchar]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip nvarchar]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 3]"
+                  hasSideEffects="true"
+                  name="Union All Input 3">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 3].Columns[Zip]"
+                      cachedDataType="r8"
+                      cachedName="Zip"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Zip]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 3].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 3].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[State]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 3].Columns[Zip nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Zip nvarchar"
+                      lineageId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output].Columns[Zip nvarchar]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip nvarchar]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 6]"
+                  hasSideEffects="true"
+                  name="Union All Input 6">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 6].Columns[Zip]"
+                      cachedDataType="r8"
+                      cachedName="Zip"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Zip]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 6].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 6].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[State]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 6].Columns[Zip nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Zip nvarchar"
+                      lineageId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output].Columns[Zip nvarchar]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip nvarchar]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 2]"
+                  hasSideEffects="true"
+                  name="Union All Input 2">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 2].Columns[Zip]"
+                      cachedDataType="r8"
+                      cachedName="Zip"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Zip]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 2].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[City]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 2].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      lineageId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[State]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[State]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 2].Columns[Zip nvarchar]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Zip nvarchar"
+                      lineageId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output].Columns[Zip nvarchar]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip nvarchar]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 7]"
+                  dangling="true"
+                  hasSideEffects="true"
+                  name="Union All Input 7">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1]"
+                  name="Union All Output 1">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip]"
+                      dataType="r8"
+                      lineageId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip]"
+                      name="Zip" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[City]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[State]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[State]"
+                      name="State" />
+                    <outputColumn
+                      refId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip nvarchar]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1].Columns[Zip nvarchar]"
+                      name="Zip nvarchar" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load data into Location dimension.Paths[Data Conversion Output]"
+              endId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Inputs[Conditional Split Input]"
+              name="Data Conversion Output"
+              startId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Default Output]"
+              endId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 1]"
+              name="Default Output"
+              startId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Default Output]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Default Output1]"
+              endId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 5]"
+              name="Default Output"
+              startId="Package\Load data into Location dimension\Conditional Split.Outputs[Default Output]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Default Output2]"
+              endId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 6]"
+              name="Default Output"
+              startId="Package\Load data into Location dimension\Missing City 1.Outputs[Default Output]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Derived Column Output]"
+              endId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 4]"
+              name="Derived Column Output"
+              startId="Package\Load data into Location dimension\Replace Missing State.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Derived Column Output1]"
+              endId="Package\Load data into Location dimension\Conditional Split.Inputs[Conditional Split Input]"
+              name="Derived Column Output"
+              startId="Package\Load data into Location dimension\Replace Missing City.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Derived Column Output2]"
+              endId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 3]"
+              name="Derived Column Output"
+              startId="Package\Load data into Location dimension\Replace Missing State 1.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Derived Column Output3]"
+              endId="Package\Load data into Location dimension\Missing City 1.Inputs[Conditional Split Input]"
+              name="Derived Column Output"
+              startId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Derived Column Output4]"
+              endId="Package\Load data into Location dimension\Union All.Inputs[Union All Input 2]"
+              name="Derived Column Output"
+              startId="Package\Load data into Location dimension\Replace Missing City 1.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Missing City]"
+              endId="Package\Load data into Location dimension\Replace Missing City.Inputs[Derived Column Input]"
+              name="Missing City"
+              startId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Missing City]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Missing City1]"
+              endId="Package\Load data into Location dimension\Replace Missing City 1.Inputs[Derived Column Input]"
+              name="Missing City"
+              startId="Package\Load data into Location dimension\Missing City 1.Outputs[Missing City]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Missing State]"
+              endId="Package\Load data into Location dimension\Replace Missing State.Inputs[Derived Column Input]"
+              name="Missing State"
+              startId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Missing State]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Missing State1]"
+              endId="Package\Load data into Location dimension\Replace Missing State 1.Inputs[Derived Column Input]"
+              name="Missing State"
+              startId="Package\Load data into Location dimension\Conditional Split.Outputs[Missing State]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Missing Zipcode]"
+              endId="Package\Load data into Location dimension\Replace Missing Zip nvarchar.Inputs[Derived Column Input]"
+              name="Missing Zipcode"
+              startId="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State.Outputs[Missing Zipcode]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[OLE DB Source Output]"
+              endId="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load data into Location dimension\Source - Food_Inspections.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Load data into Location dimension.Paths[Union All Output 1]"
+              endId="Package\Load data into Location dimension\Insert data into Location dimension.Inputs[OLE DB Destination Input]"
+              name="Union All Output 1"
+              startId="Package\Load data into Location dimension\Union All.Outputs[Union All Output 1]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{21BC222D-7ABA-4DC3-A94C-AA022C9F183E}"
+      DTS:From="Package\Execute SQL Task - Clear Location dimension"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load data into Location dimension" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{81579A76-0BB3-491F-9BFD-4D00EADD4205}"
+      DTS:From="Package\Load data into Location dimension"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Execute SQL Task - Delete duplicated location" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="292,42"
+          Id="Package\Execute SQL Task - Clear Location dimension"
+          TopLeft="161,81" />
+        <NodeLayout
+          Size="295,42"
+          Id="Package\Execute SQL Task - Delete duplicated location"
+          TopLeft="164,238" />
+        <NodeLayout
+          Size="240,42"
+          Id="Package\Load data into Location dimension"
+          TopLeft="191,157" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="309,123">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="311.25,199">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load data into Location dimension">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Load data into Location dimension\Replace Missing State 1"
+          TopLeft="519,508" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\Load data into Location dimension\Replace Missing State"
+          TopLeft="550,290" />
+        <NodeLayout
+          Size="246,42"
+          Id="Package\Load data into Location dimension\Insert data into Location dimension"
+          TopLeft="201,582" />
+        <NodeLayout
+          Size="326,42"
+          Id="Package\Load data into Location dimension\Missing Zip nvarchar or Missing City or Missing State"
+          TopLeft="163,200" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Load data into Location dimension\Union All"
+          TopLeft="263,514" />
+        <NodeLayout
+          Size="184,42"
+          Id="Package\Load data into Location dimension\Replace Missing City 1"
+          TopLeft="10,517" />
+        <NodeLayout
+          Size="204,42"
+          Id="Package\Load data into Location dimension\Source - Food_Inspections"
+          TopLeft="221,60" />
+        <NodeLayout
+          Size="262,42"
+          Id="Package\Load data into Location dimension\Data Conversion - Zip float to nvarchar"
+          TopLeft="193,130" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Load data into Location dimension\Missing City 1"
+          TopLeft="68,374" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\Load data into Location dimension\Replace Missing City"
+          TopLeft="323,290" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\Load data into Location dimension\Replace Missing Zip nvarchar"
+          TopLeft="66,292" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Load data into Location dimension\Conditional Split"
+          TopLeft="363,365" />
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Union All Output 1]"
+          TopLeft="323.75,556">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26"
+              Start="0,0"
+              End="0,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[OLE DB Source Output]"
+          TopLeft="323.5,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28"
+              Start="0,0"
+              End="0,20.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Missing Zipcode]"
+          TopLeft="221.55,242">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50"
+              Start="0,0"
+              End="0,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-35.34634765625,15.41845703125,70.6926953125,11.6630859375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Missing State1]"
+          TopLeft="481,407">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="75,101"
+              Start="0,0"
+              End="75,93.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.0191570881226" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,37.0191570881226"
+                    Point2="0,41.0191570881226"
+                    Point3="4,41.0191570881226" />
+                  <mssgle:LineSegment
+                    End="71,41.0191570881226" />
+                  <mssgle:CubicBezierSegment
+                    Point1="71,41.0191570881226"
+                    Point2="75,41.0191570881226"
+                    Point3="75,45.0191570881226" />
+                  <mssgle:LineSegment
+                    End="75,93.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="7.89365234375,46.0191570881226,59.2126953125,11.4677734375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Missing State]"
+          TopLeft="421.4,242">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="219.1,48"
+              Start="0,0"
+              End="219.1,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.0711188204683" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.0711188204683"
+                    Point2="0,14.0711188204683"
+                    Point3="4,14.0711188204683" />
+                  <mssgle:LineSegment
+                    End="215.1,14.0711188204683" />
+                  <mssgle:CubicBezierSegment
+                    Point1="215.1,14.0711188204683"
+                    Point2="219.1,14.0711188204683"
+                    Point3="219.1,18.0711188204683" />
+                  <mssgle:LineSegment
+                    End="219.1,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="79.94365234375,19.0711188204683,59.2126953125,11.4677734375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Missing City1]"
+          TopLeft="102.666666666667,416">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,101"
+              Start="0,0"
+              End="0,93.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,93.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-26.65193359375,41.01611328125,53.3038671875,11.4677734375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Missing City]"
+          TopLeft="358.65,242">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-26.65193359375,14.51611328125,53.3038671875,11.4677734375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Derived Column Output4]"
+          TopLeft="194,536.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="69,0"
+              Start="0,0"
+              End="61.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="61.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Derived Column Output3]"
+          TopLeft="139.75,334">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40"
+              Start="0,0"
+              End="0,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Derived Column Output2]"
+          TopLeft="519,532">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-135,0"
+              Start="0,0"
+              End="-127.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-127.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Derived Column Output1]"
+          TopLeft="440,332">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Derived Column Output]"
+          TopLeft="640.5,332">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-283.1,182"
+              Start="0,0"
+              End="-283.1,174.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,142.417910447761" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,142.417910447761"
+                    Point2="0,146.417910447761"
+                    Point3="-4,146.417910447761" />
+                  <mssgle:LineSegment
+                    End="-279.1,146.417910447761" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-279.1,146.417910447761"
+                    Point2="-283.1,146.417910447761"
+                    Point3="-283.1,150.417910447761" />
+                  <mssgle:LineSegment
+                    End="-283.1,174.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Default Output2]"
+          TopLeft="140,416">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="149.6,98"
+              Start="0,0"
+              End="149.6,90.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,64.0711825487945" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,64.0711825487945"
+                    Point2="0,68.0711825487945"
+                    Point3="4,68.0711825487945" />
+                  <mssgle:LineSegment
+                    End="145.6,68.0711825487945" />
+                  <mssgle:CubicBezierSegment
+                    Point1="145.6,68.0711825487945"
+                    Point2="149.6,68.0711825487945"
+                    Point3="149.6,72.0711825487945" />
+                  <mssgle:LineSegment
+                    End="149.6,90.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="41.54361328125,73.0711825487945,66.5127734375,11.658203125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Default Output1]"
+          TopLeft="392,407">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-57.2,107"
+              Start="0,0"
+              End="-57.2,99.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.8774841512928" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,44.8774841512928"
+                    Point2="0,48.8774841512928"
+                    Point3="-4,48.8774841512928" />
+                  <mssgle:LineSegment
+                    End="-53.2,48.8774841512928" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-53.2,48.8774841512928"
+                    Point2="-57.2,48.8774841512928"
+                    Point3="-57.2,52.8774841512928" />
+                  <mssgle:LineSegment
+                    End="-57.2,99.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-61.85638671875,53.8774841512928,66.5127734375,11.658203125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Default Output]"
+          TopLeft="310.2,242">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,272"
+              Start="0,0"
+              End="0,264.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,264.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-33.25638671875,126.4208984375,66.5127734375,11.658203125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Location dimension.Paths[Data Conversion Output]"
+          TopLeft="325,172">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28"
+              Start="0,0"
+              End="0,20.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load data into Location dimension\Source - Food_Inspections">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load data into Location dimension\Insert data into Location dimension">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

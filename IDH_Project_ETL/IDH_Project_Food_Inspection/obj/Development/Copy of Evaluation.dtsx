@@ -1,0 +1,1617 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/29/2022 8:24:20 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPOTOPO"
+  DTS:CreatorName="LAPOTOPO\apopi"
+  DTS:DTSID="{F4FE8A0A-9348-4E92-A0DF-18306E4EB93F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{A72EA4AD-5E79-4119-832B-EF1E468D77E8}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.Food_Inspections]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{6FEA87B5-691F-4C5E-A8C8-3ADA7D334CAC}"
+      DTS:ObjectName="LAPOTOPO\MSSQLSERVER01.Food_Inspections">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=LAPOTOPO\MSSQLSERVER01;Initial Catalog=Food_Inspections;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{51FD5C8A-C4BA-45E3-8BB7-BA3E3D0C996F}"
+      DTS:ObjectName="LAPOTOPO\MSSQLSERVER01.s26584">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=LAPOTOPO\MSSQLSERVER01;Initial Catalog=s26584;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task - Clear Evaluation dimension"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{eb2883e8-d1a8-49ff-bd62-0e483cf6c1c9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task - Clear Evaluation dimension"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{51FD5C8A-C4BA-45E3-8BB7-BA3E3D0C996F}"
+          SQLTask:SqlStatementSource="truncate table Evaluation" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load data into Evaluation dimension"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{26129957-f7a4-41b8-89b7-65f7ac25a0af}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load data into Evaluation dimension"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Insert data into Evaluation dimension"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Evaluation]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].Columns[Violations]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Violations"
+                      externalMetadataColumnId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[Violations]"
+                      lineageId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Violations]" />
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      externalMetadataColumnId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[InspectionType]"
+                      lineageId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Inspection_Type]" />
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].Columns[Results]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Results"
+                      externalMetadataColumnId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[Result]"
+                      lineageId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Results]" />
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      externalMetadataColumnId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[RiskLevel]"
+                      lineageId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Risk]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[IdInspection]"
+                      dataType="i4"
+                      name="IdInspection" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[Result]"
+                      dataType="wstr"
+                      length="200"
+                      name="Result" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[InspectionType]"
+                      dataType="wstr"
+                      length="255"
+                      name="InspectionType" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      name="Violations" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[RiskLevel]"
+                      dataType="wstr"
+                      length="255"
+                      name="RiskLevel" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="No Risk or Missing Inspection Type or No Violations"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Inputs[Conditional Split Input].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Risk]" />
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Inputs[Conditional Split Input].Columns[Violations]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Violations"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Violations]" />
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Inputs[Conditional Split Input].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Inspection_Type]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[No Risk]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="No Risk"
+                  synchronousInputId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Risk]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(Risk)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[Missing Inspection Type]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Missing Inspection Type"
+                  synchronousInputId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Inspection_Type]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(Inspection_Type)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[No Violations]"
+                  description="Output 3 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="No Violations"
+                  synchronousInputId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Violations]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(Violations)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">2</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Default Output"
+                  synchronousInputId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Replace Missing Inspection Type 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Inputs[Derived Column Input].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Inspection_Type]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Missing Inspection Type"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Missing Inspection Type"</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Evaluation dimension\Replace No Risk"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Replace No Risk"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Evaluation dimension\Replace No Risk.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Replace No Risk.Inputs[Derived Column Input].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Risk]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"N/A"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"N/A"</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Evaluation dimension\Replace No Risk.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load data into Evaluation dimension\Replace No Risk.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Evaluation dimension\Replace No Risk.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load data into Evaluation dimension\Replace No Risk.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Replace No Risk.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\Replace No Risk.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Replace No Risk.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\Replace No Risk.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Evaluation dimension\Replace No Violations 2"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Replace No Violations 2"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load data into Evaluation dimension\Replace No Violations 2.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Replace No Violations 2.Inputs[Derived Column Input].Columns[Violations]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Violations"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Violations]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"N/A"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"N/A"</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Evaluation dimension\Replace No Violations 2.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load data into Evaluation dimension\Replace No Violations 2.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load data into Evaluation dimension\Replace No Violations 2.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load data into Evaluation dimension\Replace No Violations 2.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Replace No Violations 2.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\Replace No Violations 2.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Replace No Violations 2.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\Replace No Violations 2.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Evaluation dimension\Source - Food_Inspections"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source - Food_Inspections"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Food_Inspections]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.Food_Inspections]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.Food_Inspections]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Risk]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Risk]"
+                      length="255"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Risk]"
+                      name="Risk"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Results]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Results]"
+                      length="255"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Results]"
+                      name="Results"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Violations]"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Violations]"
+                      name="Violations"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Inspection_Type]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Inspection_Type]"
+                      length="255"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Inspection_Type]"
+                      name="Inspection_Type"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Inspection_ID]"
+                      dataType="i4"
+                      name="Inspection_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[DBA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="DBA_Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[AKA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="AKA_Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[License]"
+                      dataType="r8"
+                      name="License" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Facility_Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Facility_Type" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      name="Risk" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Address]"
+                      dataType="wstr"
+                      length="255"
+                      name="Address" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="255"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[State]"
+                      dataType="wstr"
+                      length="255"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Zip]"
+                      dataType="r8"
+                      name="Zip" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Inspection_Date]"
+                      dataType="dbTimeStamp2"
+                      name="Inspection_Date"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Inspection_Type" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Results]"
+                      dataType="wstr"
+                      length="255"
+                      name="Results" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      name="Violations" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Latitude]"
+                      dataType="r8"
+                      name="Latitude" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Longitude]"
+                      dataType="r8"
+                      name="Longitude" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Location]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Day]"
+                      dataType="i4"
+                      name="Day" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Month]"
+                      dataType="i4"
+                      name="Month" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[Year]"
+                      dataType="i4"
+                      name="Year" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].ExternalColumns[DayOfTheWeek]"
+                      dataType="wstr"
+                      length="255"
+                      name="DayOfTheWeek" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[Risk]"
+                      name="Risk" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[Results]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[Results]"
+                      name="Results" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[Violations]"
+                      name="Violations" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Error Output].Columns[Inspection_Type]"
+                      name="Inspection_Type" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into Evaluation dimension\Union All"
+              componentClassID="Microsoft.UnionAll"
+              contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+              name="Union All"
+              version="1">
+              <inputs>
+                <input
+                  refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 1]"
+                  name="Union All Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 1].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Risk]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Risk]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 1].Columns[Results]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Results"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Results]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Results]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 1].Columns[Violations]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Violations"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Violations]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Violations]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 1].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Inspection_Type]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Inspection_Type]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 7]"
+                  hasSideEffects="true"
+                  name="Union All Input 7">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 7].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Risk]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Risk]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 7].Columns[Results]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Results"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Results]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Results]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 7].Columns[Violations]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Violations"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Violations]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Violations]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 7].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Inspection_Type]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Inspection_Type]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 8]"
+                  hasSideEffects="true"
+                  name="Union All Input 8">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 8].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Risk]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Risk]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 8].Columns[Results]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Results"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Results]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Results]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 8].Columns[Violations]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Violations"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Violations]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Violations]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 8].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Inspection_Type]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Inspection_Type]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 2]"
+                  hasSideEffects="true"
+                  name="Union All Input 2">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 2].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Risk]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Risk]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 2].Columns[Results]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Results"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Results]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Results]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 2].Columns[Violations]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Violations"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Violations]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Violations]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 2].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      lineageId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output].Columns[Inspection_Type]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Inspection_Type]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 3]"
+                  dangling="true"
+                  hasSideEffects="true"
+                  name="Union All Input 3">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1]"
+                  name="Union All Output 1">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Risk]"
+                      name="Risk" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Results]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Results]"
+                      name="Results" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      lineageId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Violations]"
+                      name="Violations" />
+                    <outputColumn
+                      refId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1].Columns[Inspection_Type]"
+                      name="Inspection_Type" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load data into Evaluation dimension.Paths[Default Output]"
+              endId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 1]"
+              name="Default Output"
+              startId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[Default Output]" />
+            <path
+              refId="Package\Load data into Evaluation dimension.Paths[Derived Column Output]"
+              endId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 7]"
+              name="Derived Column Output"
+              startId="Package\Load data into Evaluation dimension\Replace No Violations 2.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load data into Evaluation dimension.Paths[Derived Column Output1]"
+              endId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 8]"
+              name="Derived Column Output"
+              startId="Package\Load data into Evaluation dimension\Replace No Risk.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load data into Evaluation dimension.Paths[Derived Column Output2]"
+              endId="Package\Load data into Evaluation dimension\Union All.Inputs[Union All Input 2]"
+              name="Derived Column Output"
+              startId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load data into Evaluation dimension.Paths[Missing Inspection Type]"
+              endId="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1.Inputs[Derived Column Input]"
+              name="Missing Inspection Type"
+              startId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[Missing Inspection Type]" />
+            <path
+              refId="Package\Load data into Evaluation dimension.Paths[No Risk]"
+              endId="Package\Load data into Evaluation dimension\Replace No Risk.Inputs[Derived Column Input]"
+              name="No Risk"
+              startId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[No Risk]" />
+            <path
+              refId="Package\Load data into Evaluation dimension.Paths[No Violations]"
+              endId="Package\Load data into Evaluation dimension\Replace No Violations 2.Inputs[Derived Column Input]"
+              name="No Violations"
+              startId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Outputs[No Violations]" />
+            <path
+              refId="Package\Load data into Evaluation dimension.Paths[OLE DB Source Output]"
+              endId="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations.Inputs[Conditional Split Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load data into Evaluation dimension\Source - Food_Inspections.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Load data into Evaluation dimension.Paths[Union All Output 1]"
+              endId="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input]"
+              name="Union All Output 1"
+              startId="Package\Load data into Evaluation dimension\Union All.Outputs[Union All Output 1]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{f2a2c784-e9b8-44ad-8285-fe5a6fd1298a}"
+      DTS:From="Package\Execute SQL Task - Clear Evaluation dimension"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load data into Evaluation dimension" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="301,42"
+          Id="Package\Execute SQL Task - Clear Evaluation dimension"
+          TopLeft="60,60" />
+        <NodeLayout
+          Size="250,42"
+          Id="Package\Load data into Evaluation dimension"
+          TopLeft="89,135" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="212.25,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load data into Evaluation dimension">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Load data into Evaluation dimension\Union All"
+          TopLeft="336,535" />
+        <NodeLayout
+          Size="241,42"
+          Id="Package\Load data into Evaluation dimension\Replace Missing Inspection Type 1"
+          TopLeft="400,295" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension"
+          TopLeft="271,610" />
+        <NodeLayout
+          Size="204,42"
+          Id="Package\Load data into Evaluation dimension\Source - Food_Inspections"
+          TopLeft="287,17" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Load data into Evaluation dimension\Replace No Violations 2"
+          TopLeft="660,191" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Load data into Evaluation dimension\Replace No Risk"
+          TopLeft="94,193" />
+        <NodeLayout
+          Size="180,70"
+          Id="Package\Load data into Evaluation dimension\No Risk or Missing Inspection Type or No Violations"
+          TopLeft="296,84" />
+        <EdgeLayout
+          Id="Package\Load data into Evaluation dimension.Paths[Missing Inspection Type]"
+          TopLeft="403.2,154">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="117.3,141"
+              Start="0,0"
+              End="117.3,133.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,59.051597051597" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,59.051597051597"
+                    Point2="0,63.051597051597"
+                    Point3="4,63.051597051597" />
+                  <mssgle:LineSegment
+                    End="113.3,63.051597051597" />
+                  <mssgle:CubicBezierSegment
+                    Point1="113.3,63.051597051597"
+                    Point2="117.3,63.051597051597"
+                    Point3="117.3,67.051597051597" />
+                  <mssgle:LineSegment
+                    End="117.3,133.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="5.14865234374999,68.051597051597,107.0026953125,11.384765625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Evaluation dimension.Paths[Default Output]"
+          TopLeft="387.214285714286,154">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,381"
+              Start="0,0"
+              End="0,373.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,373.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-33.25638671875,180.9208984375,66.5127734375,11.658203125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Evaluation dimension.Paths[No Violations]"
+          TopLeft="437.6,154">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="317.4,37"
+              Start="0,0"
+              End="317.4,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,7.06542056074766" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,7.06542056074766"
+                    Point2="0,11.0654205607477"
+                    Point3="4,11.0654205607477" />
+                  <mssgle:LineSegment
+                    End="313.4,11.0654205607477" />
+                  <mssgle:CubicBezierSegment
+                    Point1="313.4,11.0654205607477"
+                    Point2="317.4,11.0654205607477"
+                    Point3="317.4,15.0654205607477" />
+                  <mssgle:LineSegment
+                    End="317.4,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="129.382421875,16.0654205607477,58.63515625,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Evaluation dimension.Paths[No Risk]"
+          TopLeft="334.4,154">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-163.4,39"
+              Start="0,0"
+              End="-163.4,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,7.66355140186915" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,7.66355140186915"
+                    Point2="0,11.6635514018692"
+                    Point3="-4,11.6635514018692" />
+                  <mssgle:LineSegment
+                    End="-159.4,11.6635514018692" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-159.4,11.6635514018692"
+                    Point2="-163.4,11.6635514018692"
+                    Point3="-163.4,15.6635514018692" />
+                  <mssgle:LineSegment
+                    End="-163.4,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-99.01912109375,16.6635514018692,34.6382421875,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Evaluation dimension.Paths[Union All Output 1]"
+          TopLeft="397.5,577">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Evaluation dimension.Paths[OLE DB Source Output]"
+          TopLeft="387.5,59">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25"
+              Start="0,0"
+              End="0,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Evaluation dimension.Paths[Derived Column Output]"
+          TopLeft="755,233">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-318.142857142857,302"
+              Start="0,0"
+              End="-318.142857142857,294.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,222.566873339238" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,222.566873339238"
+                    Point2="0,226.566873339238"
+                    Point3="-4,226.566873339238" />
+                  <mssgle:LineSegment
+                    End="-314.142857142857,226.566873339238" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-314.142857142857,226.566873339238"
+                    Point2="-318.142857142857,226.566873339238"
+                    Point3="-318.142857142857,230.566873339238" />
+                  <mssgle:LineSegment
+                    End="-318.142857142857,294.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Evaluation dimension.Paths[Derived Column Output1]"
+          TopLeft="171,235">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="187.833333333333,300"
+              Start="0,0"
+              End="187.833333333333,292.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,213.8" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,213.8"
+                    Point2="0,217.8"
+                    Point3="4,217.8" />
+                  <mssgle:LineSegment
+                    End="183.833333333333,217.8" />
+                  <mssgle:CubicBezierSegment
+                    Point1="183.833333333333,217.8"
+                    Point2="187.833333333333,217.8"
+                    Point3="187.833333333333,221.8" />
+                  <mssgle:LineSegment
+                    End="187.833333333333,292.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into Evaluation dimension.Paths[Derived Column Output2]"
+          TopLeft="520.5,337">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-112.7,198"
+              Start="0,0"
+              End="-112.7,190.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,105.197812215132" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,105.197812215132"
+                    Point2="0,109.197812215132"
+                    Point3="-4,109.197812215132" />
+                  <mssgle:LineSegment
+                    End="-108.7,109.197812215132" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-108.7,109.197812215132"
+                    Point2="-112.7,109.197812215132"
+                    Point3="-112.7,113.197812215132" />
+                  <mssgle:LineSegment
+                    End="-112.7,190.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load data into Evaluation dimension\Insert data into Evaluation dimension">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load data into Evaluation dimension\Source - Food_Inspections">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

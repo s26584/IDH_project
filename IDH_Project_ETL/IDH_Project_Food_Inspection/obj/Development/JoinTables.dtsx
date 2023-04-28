@@ -1,0 +1,3139 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/31/2022 1:29:49 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPOTOPO"
+  DTS:CreatorName="LAPOTOPO\apopi"
+  DTS:DTSID="{E6278F62-9C58-4458-99AB-E8D04DF8D0A8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{E8ABDC78-379B-4A18-9D9E-703A5DC22BA6}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{9E517356-826C-4D00-BC2B-8EE8B67306D7}"
+      DTS:ObjectName="LAPOTOPO\MSSQLSERVER01.s26584">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=LAPOTOPO\MSSQLSERVER01;Initial Catalog=s26584;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Clear SubFoodInspections Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{DB8D7E7C-257F-4E54-9A0A-175EAF49FCE3}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Clear SubFoodInspections Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9E517356-826C-4D00-BC2B-8EE8B67306D7}"
+          SQLTask:SqlStatementSource="truncate table SubFoodInspections" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load data into SubFoodInspections"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{ADE7C129-9258-4E4A-9EEB-71D1DDF81C16}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load data into SubFoodInspections"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Insert data into SubFoodInspections"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[SubFoodInspections]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[Inspection_ID]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Inspection_ID]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Inspection_ID]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[DBA_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DBA_Name"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[DBA_Name]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[DBA_Name]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[AKA_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="AKA_Name"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[AKA_Name]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[AKA_Name]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[FacilityType]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="FacilityType"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[FacilityType]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[FacilityType]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Risk]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Risk]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[Result]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Result"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Result]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Result]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[City]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[State]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[Zip]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Zip"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Zip]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Zip]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[Year]"
+                      cachedDataType="i4"
+                      cachedName="Year"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Year]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Year]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[Month]"
+                      cachedDataType="i4"
+                      cachedName="Month"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Month]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Month]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[DayOfTheWeek]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DayOfTheWeek"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[DayOfTheWeek]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[DayOfTheWeek]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[Day]"
+                      cachedDataType="i4"
+                      cachedName="Day"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Day]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Day]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[Violations]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Violations"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Violations]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Violations]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Inspection_Type]"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Inspection_Type]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Inspection_ID]"
+                      dataType="i4"
+                      name="Inspection_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[DBA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="DBA_Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[AKA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="AKA_Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[FacilityType]"
+                      dataType="wstr"
+                      length="255"
+                      name="FacilityType" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      name="Risk" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="255"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                      dataType="wstr"
+                      length="255"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Zip]"
+                      dataType="wstr"
+                      length="255"
+                      name="Zip" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Inspection_Type" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Result]"
+                      dataType="wstr"
+                      length="200"
+                      name="Result" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      name="Violations" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Year]"
+                      dataType="i4"
+                      name="Year" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Month]"
+                      dataType="i4"
+                      name="Month" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[Day]"
+                      dataType="i4"
+                      name="Day" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input].ExternalColumns[DayOfTheWeek]"
+                      dataType="wstr"
+                      length="255"
+                      name="DayOfTheWeek" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into SubFoodInspections\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Left Input].Columns[Inspection_ID]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[Inspection_ID]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Left Input].Columns[DBA_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DBA_Name"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[DBA_Name]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Left Input].Columns[AKA_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="AKA_Name"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[AKA_Name]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Left Input].Columns[FacilityType]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="FacilityType"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[FacilityType]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input].Columns[Inspection_ID]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Inspection_ID]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Risk]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Inspection_Type]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input].Columns[Result]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Result"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Result]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input].Columns[Violations]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Violations"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Violations]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Inspection_ID]"
+                      name="Inspection_ID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Left Input].Columns[Inspection_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[DBA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[DBA_Name]"
+                      name="DBA_Name">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Left Input].Columns[DBA_Name]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[AKA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[AKA_Name]"
+                      name="AKA_Name">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Left Input].Columns[AKA_Name]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[FacilityType]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[FacilityType]"
+                      name="FacilityType">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Left Input].Columns[FacilityType]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Risk]"
+                      name="Risk">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input].Columns[Risk]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Inspection_Type]"
+                      name="Inspection_Type">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input].Columns[Inspection_Type]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Result]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Result]"
+                      name="Result">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input].Columns[Result]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Violations]"
+                      name="Violations">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input].Columns[Violations]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Inspection_ID (1)]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Inspection_ID (1)]"
+                      name="Inspection_ID (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input].Columns[Inspection_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into SubFoodInspections\Merge Join 1"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join 1"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Left Input].Columns[Inspection_ID]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[Inspection_ID]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Left Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[City]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Left Input].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[State]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Left Input].Columns[Zip]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Zip"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[Zip]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input].Columns[Inspection_ID]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Inspection_ID]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input].Columns[Year]"
+                      cachedDataType="i4"
+                      cachedName="Year"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Year]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input].Columns[Month]"
+                      cachedDataType="i4"
+                      cachedName="Month"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Month]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input].Columns[Day]"
+                      cachedDataType="i4"
+                      cachedName="Day"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Day]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input].Columns[DayOfTheWeek]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DayOfTheWeek"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[DayOfTheWeek]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[City]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[City]"
+                      name="City">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Left Input].Columns[City]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[State]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[State]"
+                      name="State">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Left Input].Columns[State]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Zip]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Zip]"
+                      name="Zip">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Left Input].Columns[Zip]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Year]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Year]"
+                      name="Year">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input].Columns[Year]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Month]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Month]"
+                      name="Month">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input].Columns[Month]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Day]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Day]"
+                      name="Day">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input].Columns[Day]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[DayOfTheWeek]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[DayOfTheWeek]"
+                      name="DayOfTheWeek">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input].Columns[DayOfTheWeek]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Inspection_ID (2)]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Inspection_ID (2)]"
+                      name="Inspection_ID (2)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input].Columns[Inspection_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Inspection_ID (1)]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Inspection_ID (1)]"
+                      name="Inspection_ID (1)"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Left Input].Columns[Inspection_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into SubFoodInspections\Merge Join 2"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join 2"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Inspection_ID]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Inspection_ID]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[DBA_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DBA_Name"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[DBA_Name]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[AKA_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="AKA_Name"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[AKA_Name]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[FacilityType]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="FacilityType"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[FacilityType]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Risk]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Inspection_Type]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Result]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Result"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Result]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Violations]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Violations"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Violations]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Inspection_ID (1)]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID (1)"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output].Columns[Inspection_ID (1)]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[Inspection_ID (1)]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID (1)"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Inspection_ID (1)]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[City]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[State]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[Zip]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Zip"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Zip]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[Year]"
+                      cachedDataType="i4"
+                      cachedName="Year"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Year]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[Month]"
+                      cachedDataType="i4"
+                      cachedName="Month"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Month]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[Day]"
+                      cachedDataType="i4"
+                      cachedName="Day"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[Day]" />
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[DayOfTheWeek]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DayOfTheWeek"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output].Columns[DayOfTheWeek]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Inspection_ID]"
+                      name="Inspection_ID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Inspection_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[DBA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[DBA_Name]"
+                      name="DBA_Name">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[DBA_Name]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[AKA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[AKA_Name]"
+                      name="AKA_Name">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[AKA_Name]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[FacilityType]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[FacilityType]"
+                      name="FacilityType">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[FacilityType]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Risk]"
+                      name="Risk">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Risk]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Inspection_Type]"
+                      name="Inspection_Type">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Inspection_Type]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Result]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Result]"
+                      name="Result">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Result]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Violations]"
+                      name="Violations">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Violations]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Inspection_ID (1)]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Inspection_ID (1)]"
+                      name="Inspection_ID (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input].Columns[Inspection_ID (1)]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[City]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[City]"
+                      name="City">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[City]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[State]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[State]"
+                      name="State">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[State]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Zip]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Zip]"
+                      name="Zip">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[Zip]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Year]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Year]"
+                      name="Year">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[Year]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Month]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Month]"
+                      name="Month">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[Month]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Day]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Day]"
+                      name="Day">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[Day]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[DayOfTheWeek]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[DayOfTheWeek]"
+                      name="DayOfTheWeek">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[DayOfTheWeek]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Inspection_ID (1) (1)]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output].Columns[Inspection_ID (1) (1)]"
+                      name="Inspection_ID (1) (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input].Columns[Inspection_ID (1)]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort by Inspection_ID"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Inputs[Sort Input].Columns[Inspection_ID]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[Inspection_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Inputs[Sort Input].Columns[DBA_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DBA_Name"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[DBA_Name]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Inputs[Sort Input].Columns[AKA_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="AKA_Name"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[AKA_Name]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Inputs[Sort Input].Columns[FacilityType]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="FacilityType"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[FacilityType]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[Inspection_ID]"
+                      name="Inspection_ID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[Inspection_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[DBA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[DBA_Name]"
+                      name="DBA_Name">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[DBA_Name]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[AKA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[AKA_Name]"
+                      name="AKA_Name">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[AKA_Name]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[FacilityType]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output].Columns[FacilityType]"
+                      name="FacilityType">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[FacilityType]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort by Inspection_ID 1"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Inputs[Sort Input].Columns[Inspection_ID]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Inspection_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Inputs[Sort Input].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Risk]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Inputs[Sort Input].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Inspection_Type]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Inputs[Sort Input].Columns[Result]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Result"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Result]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Inputs[Sort Input].Columns[Violations]"
+                      cachedCodepage="1252"
+                      cachedDataType="text"
+                      cachedName="Violations"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Violations]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Inspection_ID]"
+                      name="Inspection_ID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Inspection_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Risk]"
+                      name="Risk">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Risk]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Inspection_Type]"
+                      name="Inspection_Type">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Inspection_Type]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Result]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Result]"
+                      name="Result">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Result]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output].Columns[Violations]"
+                      name="Violations">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Violations]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort by Inspection_ID 2"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Inputs[Sort Input].Columns[Inspection_ID]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[Inspection_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Inputs[Sort Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="City"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Inputs[Sort Input].Columns[State]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="State"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[State]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Inputs[Sort Input].Columns[Zip]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Zip"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[Zip]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[Inspection_ID]"
+                      name="Inspection_ID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[Inspection_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[City]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[City]"
+                      name="City">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[City]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[State]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[State]"
+                      name="State">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[State]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[Zip]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output].Columns[Zip]"
+                      name="Zip">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[Zip]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort by Inspection_ID 3"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Inputs[Sort Input].Columns[Inspection_ID]"
+                      cachedDataType="i4"
+                      cachedName="Inspection_ID"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Inspection_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Inputs[Sort Input].Columns[Year]"
+                      cachedDataType="i4"
+                      cachedName="Year"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Year]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Inputs[Sort Input].Columns[Month]"
+                      cachedDataType="i4"
+                      cachedName="Month"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Month]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Inputs[Sort Input].Columns[Day]"
+                      cachedDataType="i4"
+                      cachedName="Day"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Day]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Inputs[Sort Input].Columns[DayOfTheWeek]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DayOfTheWeek"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[DayOfTheWeek]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Inspection_ID]"
+                      name="Inspection_ID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Inspection_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Year]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Year]"
+                      name="Year">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Year]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Month]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Month]"
+                      name="Month">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Month]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Day]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[Day]"
+                      name="Day">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Day]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[DayOfTheWeek]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output].Columns[DayOfTheWeek]"
+                      name="DayOfTheWeek">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[DayOfTheWeek]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into SubFoodInspections\TableBusiness"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="TableBusiness"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[TableBusiness]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load data into SubFoodInspections\TableBusiness.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].ExternalColumns[Inspection_ID]"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[Inspection_ID]"
+                      name="Inspection_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[DBA_Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].ExternalColumns[DBA_Name]"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[DBA_Name]"
+                      name="DBA_Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[AKA_Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].ExternalColumns[AKA_Name]"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[AKA_Name]"
+                      name="AKA_Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[FacilityType]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].ExternalColumns[FacilityType]"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].Columns[FacilityType]"
+                      name="FacilityType"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].ExternalColumns[Inspection_ID]"
+                      dataType="i4"
+                      name="Inspection_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].ExternalColumns[DBA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="DBA_Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].ExternalColumns[AKA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="AKA_Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output].ExternalColumns[FacilityType]"
+                      dataType="wstr"
+                      length="255"
+                      name="FacilityType" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[Inspection_ID]"
+                      name="Inspection_ID" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[DBA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[DBA_Name]"
+                      name="DBA_Name" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[AKA_Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[AKA_Name]"
+                      name="AKA_Name" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[FacilityType]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[FacilityType]"
+                      name="FacilityType" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into SubFoodInspections\TableEvaluation"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="TableEvaluation"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[TableEvaluation]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load data into SubFoodInspections\TableEvaluation.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Inspection_ID]"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Inspection_ID]"
+                      name="Inspection_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Risk]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Risk]"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Risk]"
+                      name="Risk"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Inspection_Type]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Inspection_Type]"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Inspection_Type]"
+                      name="Inspection_Type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Result]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Result]"
+                      length="200"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Result]"
+                      name="Result"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Violations]"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].Columns[Violations]"
+                      name="Violations"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Inspection_ID]"
+                      dataType="i4"
+                      name="Inspection_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      name="Risk" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Inspection_Type" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Result]"
+                      dataType="wstr"
+                      length="200"
+                      name="Result" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      name="Violations" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Inspection_ID]"
+                      name="Inspection_ID" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Risk]"
+                      name="Risk" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Inspection_Type]"
+                      name="Inspection_Type" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Result]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Result]"
+                      name="Result" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Violations]"
+                      codePage="1252"
+                      dataType="text"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Violations]"
+                      name="Violations" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into SubFoodInspections\TableLocation"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="TableLocation"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[TableLocation]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load data into SubFoodInspections\TableLocation.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].ExternalColumns[Inspection_ID]"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[Inspection_ID]"
+                      name="Inspection_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[City]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].ExternalColumns[City]"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[State]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].ExternalColumns[State]"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[State]"
+                      name="State"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[Zip]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].ExternalColumns[Zip]"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].Columns[Zip]"
+                      name="Zip"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].ExternalColumns[Inspection_ID]"
+                      dataType="i4"
+                      name="Inspection_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="255"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].ExternalColumns[State]"
+                      dataType="wstr"
+                      length="255"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output].ExternalColumns[Zip]"
+                      dataType="wstr"
+                      length="255"
+                      name="Zip" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[Inspection_ID]"
+                      name="Inspection_ID" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[City]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[State]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[State]"
+                      name="State" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[Zip]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[Zip]"
+                      name="Zip" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load data into SubFoodInspections\TableTime"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="TableTime"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[TableTime]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load data into SubFoodInspections\TableTime.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].ExternalColumns[Inspection_ID]"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Inspection_ID]"
+                      name="Inspection_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Year]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].ExternalColumns[Year]"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Year]"
+                      name="Year"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Month]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].ExternalColumns[Month]"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Month]"
+                      name="Month"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Day]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].ExternalColumns[Day]"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[Day]"
+                      name="Day"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[DayOfTheWeek]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].ExternalColumns[DayOfTheWeek]"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].Columns[DayOfTheWeek]"
+                      name="DayOfTheWeek"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].ExternalColumns[Inspection_ID]"
+                      dataType="i4"
+                      name="Inspection_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].ExternalColumns[Year]"
+                      dataType="i4"
+                      name="Year" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].ExternalColumns[Month]"
+                      dataType="i4"
+                      name="Month" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].ExternalColumns[Day]"
+                      dataType="i4"
+                      name="Day" />
+                    <externalMetadataColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output].ExternalColumns[DayOfTheWeek]"
+                      dataType="wstr"
+                      length="255"
+                      name="DayOfTheWeek" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[Inspection_ID]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[Inspection_ID]"
+                      name="Inspection_ID" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[Year]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[Year]"
+                      name="Year" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[Month]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[Month]"
+                      name="Month" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[Day]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[Day]"
+                      name="Day" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[DayOfTheWeek]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[DayOfTheWeek]"
+                      name="DayOfTheWeek" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load data into SubFoodInspections.Paths[Merge Join Output]"
+              endId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Left Input]"
+              name="Merge Join Output"
+              startId="Package\Load data into SubFoodInspections\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\Load data into SubFoodInspections.Paths[Merge Join Output1]"
+              endId="Package\Load data into SubFoodInspections\Merge Join 2.Inputs[Merge Join Right Input]"
+              name="Merge Join Output"
+              startId="Package\Load data into SubFoodInspections\Merge Join 1.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\Load data into SubFoodInspections.Paths[Merge Join Output2]"
+              endId="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections.Inputs[OLE DB Destination Input]"
+              name="Merge Join Output"
+              startId="Package\Load data into SubFoodInspections\Merge Join 2.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\Load data into SubFoodInspections.Paths[OLE DB Source Output]"
+              endId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load data into SubFoodInspections\TableBusiness.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Load data into SubFoodInspections.Paths[OLE DB Source Output1]"
+              endId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load data into SubFoodInspections\TableEvaluation.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Load data into SubFoodInspections.Paths[OLE DB Source Output2]"
+              endId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load data into SubFoodInspections\TableLocation.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Load data into SubFoodInspections.Paths[OLE DB Source Output3]"
+              endId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load data into SubFoodInspections\TableTime.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Load data into SubFoodInspections.Paths[Sort Output]"
+              endId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Left Input]"
+              name="Sort Output"
+              startId="Package\Load data into SubFoodInspections\Sort by Inspection_ID.Outputs[Sort Output]" />
+            <path
+              refId="Package\Load data into SubFoodInspections.Paths[Sort Output1]"
+              endId="Package\Load data into SubFoodInspections\Merge Join.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1.Outputs[Sort Output]" />
+            <path
+              refId="Package\Load data into SubFoodInspections.Paths[Sort Output2]"
+              endId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Left Input]"
+              name="Sort Output"
+              startId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2.Outputs[Sort Output]" />
+            <path
+              refId="Package\Load data into SubFoodInspections.Paths[Sort Output3]"
+              endId="Package\Load data into SubFoodInspections\Merge Join 1.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{B2140761-F2FE-4571-BB8D-9B230F1C1E92}"
+      DTS:From="Package\Clear SubFoodInspections Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load data into SubFoodInspections" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="230,42"
+          Id="Package\Clear SubFoodInspections Table"
+          TopLeft="305,54" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\Load data into SubFoodInspections"
+          TopLeft="305,136" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="423.5,96">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40"
+              Start="0,0"
+              End="0,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load data into SubFoodInspections">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="145,52"
+          Id="Package\Load data into SubFoodInspections\Sort by Inspection_ID 3"
+          TopLeft="646,134" />
+        <NodeLayout
+          Size="139,42"
+          Id="Package\Load data into SubFoodInspections\Merge Join 1"
+          TopLeft="474.454545454545,224.545454545455" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Load data into SubFoodInspections\Sort by Inspection_ID"
+          TopLeft="159,142" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Load data into SubFoodInspections\TableBusiness"
+          TopLeft="166,72" />
+        <NodeLayout
+          Size="128,42"
+          Id="Package\Load data into SubFoodInspections\TableTime"
+          TopLeft="651,66" />
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Load data into SubFoodInspections\TableEvaluation"
+          TopLeft="322.727272727273,71" />
+        <NodeLayout
+          Size="151,48"
+          Id="Package\Load data into SubFoodInspections\Sort by Inspection_ID 1"
+          TopLeft="330.636363636364,136.636363636364" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Load data into SubFoodInspections\TableLocation"
+          TopLeft="495,68" />
+        <NodeLayout
+          Size="152,51"
+          Id="Package\Load data into SubFoodInspections\Sort by Inspection_ID 2"
+          TopLeft="488,135" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Load data into SubFoodInspections\Merge Join"
+          TopLeft="322.5,221.5" />
+        <NodeLayout
+          Size="139,42"
+          Id="Package\Load data into SubFoodInspections\Merge Join 2"
+          TopLeft="398.181818181818,302.727272727273" />
+        <NodeLayout
+          Size="250,42"
+          Id="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections"
+          TopLeft="342.090909090909,372.181818181818" />
+        <EdgeLayout
+          Id="Package\Load data into SubFoodInspections.Paths[OLE DB Source Output2]"
+          TopLeft="565.5,110">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25"
+              Start="0,0"
+              End="0,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into SubFoodInspections.Paths[OLE DB Source Output1]"
+          TopLeft="402.681818181818,113">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.636363636364"
+              Start="0,0"
+              End="0,16.136363636364">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.136363636364" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into SubFoodInspections.Paths[OLE DB Source Output]"
+          TopLeft="239,114">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28"
+              Start="0,0"
+              End="0,20.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into SubFoodInspections.Paths[Merge Join Output2]"
+          TopLeft="467.386363636364,344.727272727273">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.454545454545"
+              Start="0,0"
+              End="0,19.954545454545">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.954545454545" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into SubFoodInspections.Paths[Merge Join Output1]"
+          TopLeft="543.954545454545,266.545454545455">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-54.4393939393937,36.181818181818"
+              Start="0,0"
+              End="-54.4393939393937,28.681818181818">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.4620457778352" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.4620457778352"
+                    Point2="0,21.4620457778352"
+                    Point3="-4,21.4620457778352" />
+                  <mssgle:LineSegment
+                    End="-50.4393939393937,21.4620457778352" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-50.4393939393937,21.4620457778352"
+                    Point2="-54.4393939393937,21.4620457778352"
+                    Point3="-54.4393939393937,25.4620457778352" />
+                  <mssgle:LineSegment
+                    End="-54.4393939393937,28.681818181818" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into SubFoodInspections.Paths[Merge Join Output]"
+          TopLeft="387.5,263.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="58.3484848484847,39.227272727273"
+              Start="0,0"
+              End="58.3484848484847,31.727272727273">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.2685245053668" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.2685245053668"
+                    Point2="0,23.2685245053668"
+                    Point3="4,23.2685245053668" />
+                  <mssgle:LineSegment
+                    End="54.3484848484847,23.2685245053668" />
+                  <mssgle:CubicBezierSegment
+                    Point1="54.3484848484847,23.2685245053668"
+                    Point2="58.3484848484847,23.2685245053668"
+                    Point3="58.3484848484847,27.2685245053668" />
+                  <mssgle:LineSegment
+                    End="58.3484848484847,31.727272727273" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into SubFoodInspections.Paths[Sort Output3]"
+          TopLeft="718.5,186">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-152.712121212122,38.545454545455"
+              Start="0,0"
+              End="-152.712121212122,31.045454545455">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.8640889693524" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.8640889693524"
+                    Point2="0,22.8640889693524"
+                    Point3="-4,22.8640889693524" />
+                  <mssgle:LineSegment
+                    End="-148.712121212122,22.8640889693524" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-148.712121212122,22.8640889693524"
+                    Point2="-152.712121212122,22.8640889693524"
+                    Point3="-152.712121212122,26.8640889693524" />
+                  <mssgle:LineSegment
+                    End="-152.712121212122,31.045454545455" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into SubFoodInspections.Paths[Sort Output2]"
+          TopLeft="564,186">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-41.8787878787883,38.545454545455"
+              Start="0,0"
+              End="-41.8787878787883,31.045454545455">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.8640889693524" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.8640889693524"
+                    Point2="0,22.8640889693524"
+                    Point3="-4,22.8640889693524" />
+                  <mssgle:LineSegment
+                    End="-37.8787878787883,22.8640889693524" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-37.8787878787883,22.8640889693524"
+                    Point2="-41.8787878787883,22.8640889693524"
+                    Point3="-41.8787878787883,26.8640889693524" />
+                  <mssgle:LineSegment
+                    End="-41.8787878787883,31.045454545455" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into SubFoodInspections.Paths[Sort Output1]"
+          TopLeft="406.984848484849,184.636363636364">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.863636363636"
+              Start="0,0"
+              End="0,29.363636363636">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.363636363636" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into SubFoodInspections.Paths[Sort Output]"
+          TopLeft="239.5,184">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="127.666666666667,37.5"
+              Start="0,0"
+              End="127.666666666667,30">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.226443768997" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.226443768997"
+                    Point2="0,22.226443768997"
+                    Point3="4,22.226443768997" />
+                  <mssgle:LineSegment
+                    End="123.666666666667,22.226443768997" />
+                  <mssgle:CubicBezierSegment
+                    Point1="123.666666666667,22.226443768997"
+                    Point2="127.666666666667,22.226443768997"
+                    Point3="127.666666666667,26.226443768997" />
+                  <mssgle:LineSegment
+                    End="127.666666666667,30" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load data into SubFoodInspections.Paths[OLE DB Source Output3]"
+          TopLeft="716.75,108">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26"
+              Start="0,0"
+              End="0,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load data into SubFoodInspections\TableTime">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load data into SubFoodInspections\TableEvaluation">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load data into SubFoodInspections\TableLocation">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load data into SubFoodInspections\Insert data into SubFoodInspections">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load data into SubFoodInspections\TableBusiness">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,509 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/31/2022 2:19:27 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPOTOPO"
+  DTS:CreatorName="LAPOTOPO\apopi"
+  DTS:DTSID="{7ED44744-6376-4DC0-B4CB-727A8B811551}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package4"
+  DTS:PackageType="5"
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{F50C638F-56AF-41A2-917F-E71644D8D630}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{D4350FCD-B7C7-4FE7-ADAB-8E3093D9DD45}"
+      DTS:ObjectName="LAPOTOPO\MSSQLSERVER01.s26584">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=LAPOTOPO\MSSQLSERVER01;Initial Catalog=s26584;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{12E715CD-6FA1-4497-B748-5AFB4513FCDB}"
+      DTS:ObjectName="LAPOTOPO\MSSQLSERVER01.s26584 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=LAPOTOPO\MSSQLSERVER01;Initial Catalog=s26584;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task - Truncate Evaluation"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{83493e28-4d42-4d44-bed1-fca696b07f25}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task - Truncate Evaluation"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D4350FCD-B7C7-4FE7-ADAB-8E3093D9DD45}"
+          SQLTask:SqlStatementSource="truncate table Evaluation" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Insert data into Evaluation dimension"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{30efc358-e79a-4660-a157-fccf8c2233d5}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Insert data into Evaluation dimension"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Insert data into Evaluation dimension"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Evaluation]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].Columns[Result]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Result"
+                      externalMetadataColumnId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[Result]"
+                      lineageId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].Columns[Result]" />
+                    <inputColumn
+                      refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].Columns[Inspection_Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Inspection_Type"
+                      externalMetadataColumnId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[InspectionType]"
+                      lineageId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].Columns[Inspection_Type]" />
+                    <inputColumn
+                      refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].Columns[Risk]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Risk"
+                      externalMetadataColumnId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[Risk]"
+                      lineageId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].Columns[Risk]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[IdInspection]"
+                      dataType="i4"
+                      name="IdInspection" />
+                    <externalMetadataColumn
+                      refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[InspectionType]"
+                      dataType="wstr"
+                      length="255"
+                      name="InspectionType" />
+                    <externalMetadataColumn
+                      refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[Result]"
+                      dataType="wstr"
+                      length="255"
+                      name="Result" />
+                    <externalMetadataColumn
+                      refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input].ExternalColumns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      name="Risk" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source - TableEvaluation"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[SubFoodInspections]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * 
+from TableEvaluation
+order by Inspection_ID;</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPOTOPO\MSSQLSERVER01.s26584 1]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].Columns[Risk]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Risk]"
+                      length="255"
+                      lineageId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].Columns[Risk]"
+                      name="Risk"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].Columns[Inspection_Type]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Inspection_Type]"
+                      length="255"
+                      lineageId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].Columns[Inspection_Type]"
+                      name="Inspection_Type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].Columns[Result]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Result]"
+                      length="200"
+                      lineageId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].Columns[Result]"
+                      name="Result"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Inspection_ID]"
+                      dataType="i4"
+                      name="Inspection_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      name="Risk" />
+                    <externalMetadataColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Inspection_Type" />
+                    <externalMetadataColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output].ExternalColumns[Result]"
+                      dataType="wstr"
+                      length="255"
+                      name="Result" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Risk]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Risk]"
+                      name="Risk" />
+                    <outputColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Inspection_Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Inspection_Type]"
+                      name="Inspection_Type" />
+                    <outputColumn
+                      refId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Result]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Error Output].Columns[Result]"
+                      name="Result" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Insert data into Evaluation dimension.Paths[OLE DB Source Output]"
+              endId="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Insert data into Evaluation dimension\Source - TableEvaluation.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{fa98cb39-2372-4c06-8e60-234bf1030d54}"
+      DTS:From="Package\Execute SQL Task - Truncate Evaluation"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Insert data into Evaluation dimension" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="267,42"
+          Id="Package\Execute SQL Task - Truncate Evaluation"
+          TopLeft="60,60" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\Insert data into Evaluation dimension"
+          TopLeft="68,132" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="194.5,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30"
+              Start="0,0"
+              End="0,22.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Insert data into Evaluation dimension">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="196,42"
+          Id="Package\Insert data into Evaluation dimension\Source - TableEvaluation"
+          TopLeft="71,60" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension"
+          TopLeft="44,152" />
+        <EdgeLayout
+          Id="Package\Insert data into Evaluation dimension.Paths[OLE DB Source Output]"
+          TopLeft="170.25,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50"
+              Start="0,0"
+              End="0,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Insert data into Evaluation dimension\Insert data into Evaluation dimension">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Insert data into Evaluation dimension\Source - TableEvaluation">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
